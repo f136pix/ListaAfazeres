@@ -1,31 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css" />
-    <title>A fazer</title>
-</head>
-<body>
-   
-    <h1> <%= tipoDeDia %></h1>
+<%- include("header") -%>
 
-    <ul>
-        <li>Comprar comida</li>
-        <li>Conzinhar comida</li>
-        <li>Comer comida</li>
-        
-        <%for (let i=0; i<novosAfazeres.length;i++){ %>
-            <li> <%= novosAfazeres[i] %></li>
-        <% } %>
+    <div class="box" id="heading">
 
-    </ul>
+        <h1> <%= tituloLista %></h1>
+                
+    </div>
 
-    <form action="/" method="post">
-        <input type="text" name="novoAfazer" required>
-        <button type="submit" name="btn">Criar</button> 
-    </form>
+    <div class="box">
+        <ul>
 
-</body>
+            <%for (let i=0; i<novosAfazeres.length;i++){ %>
+
+            <div class="item">
+
+                <input type="checkbox" autocomplete="off">
+                <p> <%= novosAfazeres[i] %></p>
+
+            </div>
+            <% } %>
+        </ul>
+
+        <form action="/" method="post" class="item">
+            <input type="text" name="novoAfazer" placeholder="Nova Tarefa" required>
+            <button type="submit" name="list" value=<%= tituloLista %>>+</button>
+        </form>
+
+    </div>
+    
+<%- include("footer") -%>
+
 </html>

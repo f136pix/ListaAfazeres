@@ -1,5 +1,9 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const { conseguirDiaSemana } = require('./date')
+const { conseguirDia} = require('./date')
+//Importando a função que descobre a data
+
 
 const app = express()
 
@@ -12,40 +16,37 @@ app.use(express.static('public'))
 app.set('view engine', 'ejs')
 
 let afazeres = []
+let afazeresTrabalho = []
 
 app.get('/', ((req,res)=> {
 
-
-    const diasSemana = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sabádo']
-
-    
-    
-    let hoje = new Date()
-    let diaSemana = hoje.getDay()
-    let tipoDeDia = diasSemana[diaSemana]
-
-    let opcoesData = {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long'
-    }
-
-    let dia = hoje.toLocaleDateString("pt-BR", opcoesData)
-
+    let dia = conseguirDiaSemana()
     //responses por Ejs devem ser feitas desta maneira :
     //res.render('nome_do_arquivo', {param1.ejs : param1.js, param2.ejs : param2.js})
     res.render('lista', {
-        tipoDeDia : dia,
+        tituloLista : dia,
         novosAfazeres : afazeres
     })
 }))
 
 app.post('/',((req, res) => {
-    
-    let afazer = req.body.novoAfazer
 
+    let afazer = req.body.novoAfazer
+    
+    //Verificando se estou na Route Trabahlo ou na comum, caso esteja na trabalhos, estou me redirecionando para a mesma com o res.redirect()
+    if(req.body.list === 'Lista'){
+        afazeresTrabalho.push(afazer)
+        res.redirect('/trabalho');
+    }
+    else{
     afazeres.push(afazer)
     res.redirect('/')
+    }
+}))
+
+app.get('/trabalho', ((req,res) => {
+    res.render('lista',{tituloLista: "Lista do trabalho",
+                       novosAfazeres : afazeresTrabalho})
 }))
 
 app.listen(3000, (()=> {
