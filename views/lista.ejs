@@ -9,15 +9,15 @@
     <div class="box">
         <ul>
 
-            <%for (let i=0; i<novosAfazeres.length;i++){ %>
+            <% novosAfazeres.forEach(function(a){ %>
 
             <div class="item">
 
                 <input type="checkbox" autocomplete="off">
-                <p> <%= novosAfazeres[i] %></p>
+                <p> <%= a.name %></p>
 
             </div>
-            <% } %>
+            <% }) %>
         </ul>
 
         <form action="/" method="post" class="item">
